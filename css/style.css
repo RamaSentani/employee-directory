@@ -1,0 +1,13 @@
+body {
+    font-family: 'Lato', sans-serif;
+    position: relative;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    right: 0;
+    background: rgb(100, 100, 100, 0.4);
+}
