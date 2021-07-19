@@ -86,7 +86,7 @@ function createOverlay(index, name, email, address, img, dob, phone) {
 
     const cardAddress = document.createElement('P');
     cardAddress.classList.add('card-address');
-    cardAddress.innerHTML = `${address.street}<br>${address.city}, ${address.state} ${address.zip}`;
+    cardAddress.innerHTML = `${address.city}, ${address.state} ${address.zip}`;
 
     const cardBday = document.createElement('P');
     cardBday.classList.add('card-birthday');
@@ -105,71 +105,14 @@ function createOverlay(index, name, email, address, img, dob, phone) {
 
 }
 
-
-function getPreviousCard() {
-    // Get the card with class .selected
-    const startCard = $('.overlay .card').filter('.selected');
-    const getCardNum = startCard.attr('class');
-    let start = getCardNum.substring(10, 12);
-    // Convert to a number
-    start = parseInt(start);
-    let prev;
-
-    // Check the value of start
-    if (start !== 1) {
-        prev = start - 1;
-    } else if (start === 1) {
-        prev = 12;
-    }
-
-    overlay.style.left = 0;
-    let currentCard = document.querySelector('.overlay .card-' + start);
-    let prevCard = document.querySelector('.overlay .card-' + prev);
-    // remove from original card
-    currentCard.style.display = 'none';
-    currentCard.classList.remove('selected');
-    // display the previous card
-    prevCard.style.display = 'flex';
-    prevCard.classList.add('selected');
-}
-
-function getNextCard() {
-    // Get the card with class .selected
-    const startCard = $('.overlay .card').filter('.selected');
-    const getCardNum = startCard.attr('class');
-    let start = getCardNum.substring(10, 12);
-    // Convert to a number
-    start = parseInt(start);
-    let next;
-
-    // Check the value of start
-    if (start !== 12) {
-        next = start + 1;
-    } else if (start === 12) {
-        next = 1;
-    }
-
-    overlay.style.left = 0;
-    let currentCard = document.querySelector('.overlay .card-' + start);
-    let nextCard = document.querySelector('.overlay .card-' + next);
-
-    // remove from original card
-    currentCard.style.display = 'none';
-    currentCard.classList.remove('selected');
-    // display the previous card
-    nextCard.style.display = 'flex';
-    nextCard.classList.add('selected');
-}
-
-
 // ===============================
 // Connect to the Random User API
 // ===============================
 
-// 1. Create a new XHR object
+// Create a new XHR object
 const xhr = new XMLHttpRequest();
 
-// 2. Callback function to run
+// Callback function to run
 xhr.onreadystatechange = function () {
     if (xhr.readyState === 4) {
         if (xhr.status === 200) {
@@ -225,25 +168,6 @@ xhr.onreadystatechange = function () {
                 cardToShow.style.display = 'flex';
                 cardToShow.classList.add('selected');
 
-                $('.prev').on('click', getPreviousCard);
-
-                // OR - listen for a left arrow key press
-                $(document).keydown(function (e) {
-                    if (e.which === 37) {
-                        getPreviousCard();
-                    }
-                });
-
-                $('.next').on('click', getNextCard);
-
-                // OR - listen for a right arrow key press
-                $(document).keydown(function (e) {
-                    if (e.which === 39) {
-                        getNextCard();
-                    }
-                });
-
-
                 // Close the Modal if user clicks the X
                 $('.close-modal').on('click', function () {
                     // Hide the overlay & card
@@ -251,8 +175,6 @@ xhr.onreadystatechange = function () {
                     overlay.style.left = '100%';
                     $('.overlay .card').css('display', 'none');
                     $('.overlay .card').removeClass('selected');
-                    // cardToShow.style.display = 'none';
-                    // cardToShow.classList.remove('selected');
                 });
 
                 // OR - listen for a keydown event and close the modal when ESC key is pressed
@@ -262,20 +184,18 @@ xhr.onreadystatechange = function () {
                         overlay.style.left = '100%';
                         $('.overlay .card').css('display', 'none');
                         $('.overlay .card').removeClass('selected');
-                        // cardToShow.style.display = 'none';
-                        // cardToShow.classList.remove('selected');
                     }
                 });
 
             });
 
 
-        } // end status === 200
-    } // end readyState
+        }
+    }
 };
 
-// 3. Open the request
+// Open the request
 xhr.open('GET', url);
 
-// 4. Send the request
+// Send the request
 xhr.send();
